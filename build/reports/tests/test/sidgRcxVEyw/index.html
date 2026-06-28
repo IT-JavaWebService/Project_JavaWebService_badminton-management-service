@@ -62,7 +62,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">1.268s</div>
+<div class="counter">1.561s</div>
 <p>duration</p>
 </div>
 </td>
@@ -106,7 +106,7 @@
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.007s</td>
+<td>0.006s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
@@ -115,7 +115,7 @@
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.228s</td>
+<td>0.304s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
@@ -124,7 +124,7 @@
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.041s</td>
+<td>0.042s</td>
 <td class="success">100%</td>
 </tr>
 </table>
@@ -133,8 +133,8 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-com.badminton.controller.AdminUserControllerTest">2026-06-26T11:38:10.476+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.badminton.controller.AdminUserControllerTest]: AdminUserControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2026-06-26T11:38:10.487+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.badminton.BadmintonBookingApplication for test class com.badminton.controller.AdminUserControllerTest
+<pre id="root-0-test-stdout-com.badminton.controller.AdminUserControllerTest">2026-06-28T20:26:18.132+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.badminton.controller.AdminUserControllerTest]: AdminUserControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-06-28T20:26:18.163+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.badminton.BadmintonBookingApplication for test class com.badminton.controller.AdminUserControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -144,31 +144,25 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.5)
 
-2026-06-26T11:38:10.507+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] c.b.controller.AdminUserControllerTest   : Starting AdminUserControllerTest using Java 21.0.11 with PID 14988 (started by admin in D:\JavaRikkei\JavaWebService\Project\badminton_booking)
-2026-06-26T11:38:10.507+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] c.b.controller.AdminUserControllerTest   : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2026-06-26T11:38:10.641+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-06-26T11:38:10.658+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 13 ms. Found 6 JPA repository interfaces.
-2026-06-26T11:38:10.913+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2026-06-26T11:38:10.920+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2026-06-26T11:38:10.925+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-06-26T11:38:10.927+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
-2026-06-26T11:38:10.938+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7a1587e8
-2026-06-26T11:38:10.938+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
-2026-06-26T11:38:10.938+07:00  WARN 14988 --- [badminton-booking-api] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2026-06-26T11:38:11.068+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-06-26T11:38:11.098+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-06-26T11:38:11.217+07:00  WARN 14988 --- [badminton-booking-api] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-06-26T11:38:11.226+07:00  WARN 14988 --- [badminton-booking-api] [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
-
-Using generated security password: 4fe1847b-a759-40d6-90aa-8977eb05f41e
-
-This generated password is for development use only. Your security configuration must be updated before running your application in production.
-
-2026-06-26T11:38:11.304+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4ff1f872, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7c3920a7, org.springframework.security.web.context.SecurityContextHolderFilter@505e8d48, org.springframework.security.web.header.HeaderWriterFilter@1ff55410, org.springframework.security.web.authentication.logout.LogoutFilter@6e6bb211, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3841e77a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@d2161b6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@12e5f7cb, org.springframework.security.web.session.SessionManagementFilter@53628ff6, org.springframework.security.web.access.ExceptionTranslationFilter@3b4a77be, org.springframework.security.web.access.intercept.AuthorizationFilter@5f0c04d2]
-2026-06-26T11:38:11.428+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-06-26T11:38:11.428+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-06-26T11:38:11.437+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 9 ms
-2026-06-26T11:38:11.445+07:00  INFO 14988 --- [badminton-booking-api] [    Test worker] c.b.controller.AdminUserControllerTest   : Started AdminUserControllerTest in 0.958 seconds (process running for 6.791)
+2026-06-28T20:26:18.183+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] c.b.controller.AdminUserControllerTest   : Starting AdminUserControllerTest using Java 21.0.11 with PID 3916 (started by admin in D:\JavaRikkei\JavaWebService\Project\badminton_booking)
+2026-06-28T20:26:18.183+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] c.b.controller.AdminUserControllerTest   : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2026-06-28T20:26:18.339+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-28T20:26:18.355+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 18 ms. Found 6 JPA repository interfaces.
+2026-06-28T20:26:18.621+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-28T20:26:18.632+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-28T20:26:18.637+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-28T20:26:18.637+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-06-28T20:26:18.655+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@45745de6
+2026-06-28T20:26:18.655+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-06-28T20:26:18.657+07:00  WARN 3916 --- [badminton-booking-api] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-28T20:26:18.855+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-28T20:26:18.894+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-28T20:26:19.043+07:00  WARN 3916 --- [badminton-booking-api] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-28T20:26:19.155+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@358f85b1, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2b01bb54, org.springframework.security.web.context.SecurityContextHolderFilter@515a897c, org.springframework.security.web.header.HeaderWriterFilter@1fd1deed, org.springframework.security.web.authentication.logout.LogoutFilter@2057d8ec, com.badminton.config.JwtRequestFilter@76a41af0, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@197d6cc9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@8caffbd, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@e822394, org.springframework.security.web.session.SessionManagementFilter@814b60b, org.springframework.security.web.access.ExceptionTranslationFilter@33ef701e, org.springframework.security.web.access.intercept.AuthorizationFilter@d56d9f6]
+2026-06-28T20:26:19.298+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-06-28T20:26:19.298+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-06-28T20:26:19.302+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
+2026-06-28T20:26:19.307+07:00  INFO 3916 --- [badminton-booking-api] [    Test worker] c.b.controller.AdminUserControllerTest   : Started AdminUserControllerTest in 1.144 seconds (process running for 7.782)
 </pre>
 <button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-stdout-com.badminton.controller.AdminUserControllerTest">Copy</button>
 </span>
@@ -183,7 +177,7 @@ This generated password is for development use only. Your security configuration
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.5.1</a> at Jun 26, 2026, 11:38:13 AM</p>
+<a href="https://www.gradle.org">Gradle 9.5.1</a> at Jun 28, 2026, 8:26:21 PM</p>
 </div>
 </div>
 </body>

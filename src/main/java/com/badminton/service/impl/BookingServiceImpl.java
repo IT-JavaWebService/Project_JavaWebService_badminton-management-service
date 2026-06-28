@@ -2,6 +2,7 @@ package com.badminton.service.impl;
 
 import com.badminton.dto.BookingDTO;
 import com.badminton.dto.request.BookingRequest;
+import com.badminton.dto.response.CustomerBookingHistoryDTO;
 import com.badminton.entity.Booking;
 import com.badminton.entity.Court;
 import com.badminton.entity.TimeSlot;
@@ -13,10 +14,12 @@ import com.badminton.repository.TimeSlotRepository;
 import com.badminton.repository.UserRepository;
 import com.badminton.service.BookingService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -58,16 +61,10 @@ public class BookingServiceImpl implements BookingService {
             throw new CustomException("This time slot is already booked on the selected date", HttpStatus.CONFLICT);
         }
 
-        // Get or create a default customer for Day 1 (since JWT authentication is not active today)
-        User customer = userRepository.findByUsername("default_customer")
-                .orElseGet(() -> userRepository.save(User.builder()
-                        .username("default_customer")
-                        .email("customer@badminton.com")
-                        .password("$2a$10$qV9.f7h.P7tJ3nN9XwQOpeLg3r6C.j3v.y83GZ7l2v7/92b7oE5.K") // BCrypt for "password"
-                        .role("CUSTOMER")
-                        .active(true)
-                        .build()
-                ));
+        // Get currently authenticated user's email
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User customer = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
 
         // 4. Create and save new booking
         Booking booking = Booking.builder()
@@ -89,5 +86,53 @@ public class BookingServiceImpl implements BookingService {
                 .status(savedBooking.getStatus())
                 .createdAt(savedBooking.getCreatedAt())
                 .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CustomerBookingHistoryDTO> getCustomerBookingHistory(String email) {
+        User customer = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
+
+        List<Booking> bookings = bookingRepository.findByCustomerId(customer.getId());
+
+        // Strictly use Java Stream API for mapping collections
+        return bookings.stream()
+                .map(b -> CustomerBookingHistoryDTO.builder()
+                        .bookingId(b.getId())
+                        .courtName(b.getCourt().getName())
+                        .bookingDate(b.getBookingDate())
+                        .timeSlot(b.getTimeSlot().getLabel())
+                        .status(b.getStatus())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void approveBooking(Long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new CustomException("Booking not found", HttpStatus.NOT_FOUND));
+        
+        if (!"PENDING".equals(booking.getStatus())) {
+            throw new CustomException("Booking status must be PENDING to approve", HttpStatus.BAD_REQUEST);
+        }
+        
+        booking.setStatus("CONFIRMED");
+        bookingRepository.save(booking);
+    }
+
+    @Override
+    @Transactional
+    public void rejectBooking(Long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new CustomException("Booking not found", HttpStatus.NOT_FOUND));
+        
+        if (!"PENDING".equals(booking.getStatus())) {
+            throw new CustomException("Booking status must be PENDING to reject", HttpStatus.BAD_REQUEST);
+        }
+        
+        booking.setStatus("CANCELLED");
+        bookingRepository.save(booking);
     }
 }

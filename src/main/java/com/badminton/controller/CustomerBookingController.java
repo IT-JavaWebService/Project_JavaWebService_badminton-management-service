@@ -2,15 +2,16 @@ package com.badminton.controller;
 
 import com.badminton.dto.BookingDTO;
 import com.badminton.dto.request.BookingRequest;
+import com.badminton.dto.response.CustomerBookingHistoryDTO;
 import com.badminton.dto.response.ResponseDTO;
 import com.badminton.service.BookingService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/customer/bookings")
@@ -31,5 +32,17 @@ public class CustomerBookingController {
                 .data(bookingDTO)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseDTO<List<CustomerBookingHistoryDTO>>> getBookingHistory() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<CustomerBookingHistoryDTO> history = bookingService.getCustomerBookingHistory(email);
+        ResponseDTO<List<CustomerBookingHistoryDTO>> response = ResponseDTO.<List<CustomerBookingHistoryDTO>>builder()
+                .success(true)
+                .message("Fetched customer booking history successfully")
+                .data(history)
+                .build();
+        return ResponseEntity.ok(response);
     }
 }
