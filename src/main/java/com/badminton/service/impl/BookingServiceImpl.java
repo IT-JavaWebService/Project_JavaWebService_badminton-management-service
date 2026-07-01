@@ -42,15 +42,12 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public BookingDTO createBooking(BookingRequest request) {
-        // 1. Check if Court exists
         Court court = courtRepository.findById(request.getCourtId())
                 .orElseThrow(() -> new CustomException("Court not found", HttpStatus.NOT_FOUND));
 
-        // 2. Check if TimeSlot exists
         TimeSlot timeSlot = timeSlotRepository.findById(request.getTimeSlotId())
                 .orElseThrow(() -> new CustomException("Time slot not found", HttpStatus.NOT_FOUND));
 
-        // 3. Check for conflict (PENDING or CONFIRMED status on that date and court)
         boolean hasConflict = bookingRepository.existsByCourtIdAndBookingDateAndTimeSlotIdAndStatusIn(
                 request.getCourtId(),
                 request.getBookingDate(),
@@ -61,12 +58,10 @@ public class BookingServiceImpl implements BookingService {
             throw new CustomException("This time slot is already booked on the selected date", HttpStatus.CONFLICT);
         }
 
-        // Get currently authenticated user's email
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User customer = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
 
-        // 4. Create and save new booking
         Booking booking = Booking.builder()
                 .customer(customer)
                 .court(court)
@@ -96,7 +91,6 @@ public class BookingServiceImpl implements BookingService {
 
         List<Booking> bookings = bookingRepository.findByCustomerId(customer.getId());
 
-        // Strictly use Java Stream API for mapping collections
         return bookings.stream()
                 .map(b -> CustomerBookingHistoryDTO.builder()
                         .bookingId(b.getId())

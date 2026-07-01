@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RefreshResponse {
     private String accessToken;
-    private String tokenType; // Bearer
+    private String tokenType; 
 }

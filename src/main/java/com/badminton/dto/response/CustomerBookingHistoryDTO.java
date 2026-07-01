@@ -15,6 +15,6 @@ public class CustomerBookingHistoryDTO {
     private Long bookingId;
     private String courtName;
     private LocalDate bookingDate;
-    private String timeSlot; // e.g. slot label: "07:00 - 08:00"
+    private String timeSlot; 
     private String status;
 }

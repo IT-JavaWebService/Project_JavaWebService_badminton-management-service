@@ -1,6 +1,6 @@
 package com.badminton.config;
 
-import com.badminton.repository.TokenBlacklistRepository;
+import com.badminton.service.RedisTokenBlacklistService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,12 +20,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
-    private final TokenBlacklistRepository tokenBlacklistRepository;
+    private final RedisTokenBlacklistService redisTokenBlacklistService;
 
-    public JwtRequestFilter(UserDetailsService userDetailsService, JwtUtil jwtUtil, TokenBlacklistRepository tokenBlacklistRepository) {
+    public JwtRequestFilter(UserDetailsService userDetailsService, JwtUtil jwtUtil, RedisTokenBlacklistService redisTokenBlacklistService) {
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
-        this.tokenBlacklistRepository = tokenBlacklistRepository;
+        this.redisTokenBlacklistService = redisTokenBlacklistService;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
             try {
-                if (tokenBlacklistRepository.existsByToken(jwt)) {
+                if (redisTokenBlacklistService.isBlacklisted(jwt)) {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     response.setContentType("application/json");
                     response.getWriter().write("{\"timestamp\":\"" + java.time.LocalDateTime.now() + "\",\"status\":403,\"error\":\"Forbidden\",\"message\":\"Token is blacklisted\",\"path\":\"" + request.getRequestURI() + "\"}");
@@ -48,7 +48,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 }
                 username = jwtUtil.extractUsername(jwt);
             } catch (Exception e) {
-                // Token is malformed, invalid or expired
+                
             }
         }
 

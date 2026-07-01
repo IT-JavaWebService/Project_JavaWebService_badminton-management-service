@@ -24,5 +24,5 @@ public class TimeSlot {
     private LocalTime endTime;
 
     @Column(nullable = false)
-    private String label; // e.g., "07:00 - 08:00"
+    private String label; 
 }

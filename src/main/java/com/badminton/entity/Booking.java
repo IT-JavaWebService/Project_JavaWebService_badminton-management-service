@@ -34,7 +34,7 @@ public class Booking {
     private LocalDate bookingDate;
 
     @Column(nullable = false)
-    private String status; // PENDING, CONFIRMED, CANCELLED
+    private String status; 
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

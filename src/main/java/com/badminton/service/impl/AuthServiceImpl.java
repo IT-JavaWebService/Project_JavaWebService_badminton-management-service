@@ -5,12 +5,11 @@ import com.badminton.dto.UserDTO;
 import com.badminton.dto.request.*;
 import com.badminton.dto.response.LoginResponse;
 import com.badminton.dto.response.RefreshResponse;
-import com.badminton.entity.TokenBlacklist;
 import com.badminton.entity.User;
 import com.badminton.exception.CustomException;
-import com.badminton.repository.TokenBlacklistRepository;
 import com.badminton.repository.UserRepository;
 import com.badminton.service.AuthService;
+import com.badminton.service.RedisTokenBlacklistService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,20 +32,20 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
-    private final TokenBlacklistRepository tokenBlacklistRepository;
+    private final RedisTokenBlacklistService redisTokenBlacklistService;
     private final UserDetailsService userDetailsService;
 
     public AuthServiceImpl(UserRepository userRepository,
                            PasswordEncoder passwordEncoder,
                            AuthenticationManager authenticationManager,
                            JwtUtil jwtUtil,
-                           TokenBlacklistRepository tokenBlacklistRepository,
+                           RedisTokenBlacklistService redisTokenBlacklistService,
                            UserDetailsService userDetailsService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
-        this.tokenBlacklistRepository = tokenBlacklistRepository;
+        this.redisTokenBlacklistService = redisTokenBlacklistService;
         this.userDetailsService = userDetailsService;
     }
 
@@ -110,7 +109,7 @@ public class AuthServiceImpl implements AuthService {
             if (jwtUtil.isTokenExpired(token)) {
                 throw new CustomException("Refresh token is expired", HttpStatus.UNAUTHORIZED);
             }
-            if (tokenBlacklistRepository.existsByToken(token)) {
+            if (redisTokenBlacklistService.isBlacklisted(token)) {
                 throw new CustomException("Refresh token is blacklisted", HttpStatus.UNAUTHORIZED);
             }
 
@@ -134,23 +133,30 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public void logout(String authorizationHeader) {
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            throw new CustomException("Missing or invalid Authorization header", HttpStatus.BAD_REQUEST);
+        if (authorizationHeader == null) {
+            throw new CustomException("Missing Authorization header", HttpStatus.BAD_REQUEST);
         }
-        String token = authorizationHeader.substring(7);
+
+        String token = authorizationHeader.trim();
+        while (token.toLowerCase().startsWith("bearer ")) {
+            token = token.substring(7).trim();
+        }
+
+        if (token.isEmpty()) {
+            throw new CustomException("Token is empty", HttpStatus.BAD_REQUEST);
+        }
 
         try {
             Date expiration = jwtUtil.extractExpiration(token);
-            LocalDateTime expiredAt = expiration.toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDateTime();
+            long remainingTime = expiration.getTime() - System.currentTimeMillis();
 
-            TokenBlacklist blacklist = TokenBlacklist.builder()
-                    .token(token)
-                    .expiredAt(expiredAt)
-                    .build();
-
-            tokenBlacklistRepository.save(blacklist);
+            
+            
+            if (remainingTime > 0) {
+                redisTokenBlacklistService.addToBlacklist(token, remainingTime);
+            }
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            
         } catch (Exception e) {
             throw new CustomException("Invalid access token", HttpStatus.BAD_REQUEST);
         }
@@ -184,19 +190,19 @@ public class AuthServiceImpl implements AuthService {
         return token;
     }
 
-    @Override
-    @Transactional
-    public void resetPassword(ResetPasswordRequest request) {
-        User user = userRepository.findByResetToken(request.getResetToken())
-                .orElseThrow(() -> new CustomException("Invalid reset token", HttpStatus.BAD_REQUEST));
 
-        if (user.getResetTokenExpiredAt().isBefore(LocalDateTime.now())) {
-            throw new CustomException("Reset token has expired", HttpStatus.BAD_REQUEST);
-        }
 
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        user.setResetToken(null);
-        user.setResetTokenExpiredAt(null);
-        userRepository.save(user);
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

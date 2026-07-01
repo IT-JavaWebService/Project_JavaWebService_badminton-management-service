@@ -22,13 +22,11 @@ public class CloudinaryServiceImpl implements CloudinaryService {
 
     @Override
     public String uploadFile(MultipartFile file) {
-        // Validate file type
         String contentType = file.getContentType();
         if (contentType == null || (!contentType.equals("image/png") && !contentType.equals("image/jpeg") && !contentType.equals("image/jpg"))) {
             throw new CustomException("Only PNG/JPG files are accepted", HttpStatus.BAD_REQUEST);
         }
 
-        // Validate size (max 10MB)
         if (file.getSize() > 10 * 1024 * 1024) {
             throw new CustomException("File size exceeds the 10MB limit", HttpStatus.BAD_REQUEST);
         }

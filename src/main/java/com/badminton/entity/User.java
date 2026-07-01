@@ -27,7 +27,7 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String role; // ADMIN, MANAGER, CUSTOMER
+    private String role; 
 
     @Column(name = "is_active", nullable = false)
     @Builder.Default

@@ -56,7 +56,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<ResponseDTO<Void>> logout(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<ResponseDTO<Void>> logout(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         authService.logout(authHeader);
         ResponseDTO<Void> response = ResponseDTO.<Void>builder()
                 .success(true)
@@ -89,14 +89,14 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/reset-password")
-    public ResponseEntity<ResponseDTO<Void>> resetPassword(
-            @Valid @RequestBody ResetPasswordRequest request) {
-        authService.resetPassword(request);
-        ResponseDTO<Void> response = ResponseDTO.<Void>builder()
-                .success(true)
-                .message("Password has been reset successfully")
-                .build();
-        return ResponseEntity.ok(response);
-    }
+
+
+
+
+
+
+
+
+
+
 }

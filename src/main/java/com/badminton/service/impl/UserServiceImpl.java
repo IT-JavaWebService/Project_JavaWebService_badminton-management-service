@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
             userPage = userRepository.findAll(pageable);
         }
         
-        // Strict compliance: use Stream API for mapping collections
         List<UserDTO> dtoList = userPage.getContent().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());

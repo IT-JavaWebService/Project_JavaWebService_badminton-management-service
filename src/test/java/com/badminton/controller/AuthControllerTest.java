@@ -1,59 +1,88 @@
 package com.badminton.controller;
 
-import com.badminton.dto.UserDTO;
-import com.badminton.dto.request.RegisterRequest;
+import com.badminton.dto.request.LoginRequest;
+import com.badminton.dto.response.LoginResponse;
 import com.badminton.service.AuthService;
+import com.badminton.service.RedisTokenBlacklistService;
+import com.badminton.config.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-public class AuthControllerTest {
+import org.springframework.context.annotation.Import;
+import com.badminton.config.SecurityConfig;
+import com.badminton.config.JwtRequestFilter;
+
+@WebMvcTest(AuthController.class)
+@Import({SecurityConfig.class, JwtRequestFilter.class})
+class AuthControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private AuthService authService;
-
     @Autowired
     private ObjectMapper objectMapper;
 
+    @MockBean
+    private AuthService authService;
+
+    @MockBean
+    private UserDetailsService userDetailsService;
+
+    @MockBean
+    private JwtUtil jwtUtil;
+
+    @MockBean
+    private RedisTokenBlacklistService redisTokenBlacklistService;
+
     @Test
-    public void testRegister_Success() throws Exception {
-        RegisterRequest request = new RegisterRequest("john_doe", "john@example.com", "password123", "CUSTOMER");
-        UserDTO expectedUser = new UserDTO(1L, "john_doe", "john@example.com", "CUSTOMER", true, null);
+    void login_success() throws Exception {
+        LoginRequest request = new LoginRequest("customer@gmail.com", "password123");
+        LoginResponse response = LoginResponse.builder()
+                .accessToken("mock-access-token")
+                .refreshToken("mock-refresh-token")
+                .tokenType("Bearer")
+                .build();
 
-        Mockito.when(authService.register(Mockito.any(RegisterRequest.class))).thenReturn(expectedUser);
+        when(authService.login(any(LoginRequest.class))).thenReturn(response);
 
-        mockMvc.perform(post("/api/v1/auth/register")
+        mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isCreated())
+                        .content(objectMapper.writeValueAsString(request))
+                        .with(csrf()))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.message").value("User registered successfully"))
-                .andExpect(jsonPath("$.data.username").value("john_doe"));
+                .andExpect(jsonPath("$.data.accessToken").value("mock-access-token"))
+                .andExpect(jsonPath("$.data.tokenType").value("Bearer"));
     }
 
     @Test
-    public void testRegister_ValidationFailure() throws Exception {
-        RegisterRequest request = new RegisterRequest("john_doe", "invalid-email", "pass", "CUSTOMER");
+    void login_badCredentials() throws Exception {
+        LoginRequest request = new LoginRequest("customer@gmail.com", "wrong-password");
 
-        mockMvc.perform(post("/api/v1/auth/register")
+        when(authService.login(any(LoginRequest.class)))
+                .thenThrow(new BadCredentialsException("Invalid email or password"));
+
+        mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("Bad Request"));
+                        .content(objectMapper.writeValueAsString(request))
+                        .with(csrf()))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.status").value(401))
+                .andExpect(jsonPath("$.error").value("Unauthorized"))
+                .andExpect(jsonPath("$.message").value("Invalid email or password"));
     }
 }
