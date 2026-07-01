@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.badminton.controller.CustomerBookingControllerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-07-01T05:18:20.095Z" hostname="LAPTOP-9DQS3FLB" time="0.625">
+<testsuite name="com.badminton.controller.CustomerBookingControllerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-07-01T18:19:53.524Z" hostname="LAPTOP-9DQS3FLB" time="0.635">
   <properties/>
-  <testcase name="createBooking_success()" classname="com.badminton.controller.CustomerBookingControllerTest" time="0.042"/>
-  <testcase name="createBooking_conflict()" classname="com.badminton.controller.CustomerBookingControllerTest" time="0.009"/>
-  <testcase name="getBookingHistory_success()" classname="com.badminton.controller.CustomerBookingControllerTest" time="0.016"/>
-  <system-out><![CDATA[2026-07-01T12:18:20.098+07:00  INFO 17124 --- [badminton-booking-api] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.badminton.controller.CustomerBookingControllerTest]: CustomerBookingControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2026-07-01T12:18:20.111+07:00  INFO 17124 --- [badminton-booking-api] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.badminton.BadmintonBookingApplication for test class com.badminton.controller.CustomerBookingControllerTest
+  <testcase name="createBooking_success()" classname="com.badminton.controller.CustomerBookingControllerTest" time="0.049"/>
+  <testcase name="createBooking_conflict()" classname="com.badminton.controller.CustomerBookingControllerTest" time="0.015"/>
+  <testcase name="getBookingHistory_success()" classname="com.badminton.controller.CustomerBookingControllerTest" time="0.021"/>
+  <system-out><![CDATA[2026-07-02T01:19:53.527+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.badminton.controller.CustomerBookingControllerTest]: CustomerBookingControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-02T01:19:53.543+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.badminton.BadmintonBookingApplication for test class com.badminton.controller.CustomerBookingControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -15,13 +15,13 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.5)
 
-2026-07-01T12:18:20.147+07:00  INFO 17124 --- [badminton-booking-api] [    Test worker] c.b.c.CustomerBookingControllerTest      : Starting CustomerBookingControllerTest using Java 21.0.11 with PID 17124 (started by admin in D:\JavaRikkei\JavaWebService\Project\badminton_booking)
-2026-07-01T12:18:20.147+07:00  INFO 17124 --- [badminton-booking-api] [    Test worker] c.b.c.CustomerBookingControllerTest      : No active profile set, falling back to 1 default profile: "default"
-2026-07-01T12:18:20.595+07:00  INFO 17124 --- [badminton-booking-api] [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@79b7aebc, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@68b2a686, org.springframework.security.web.context.SecurityContextHolderFilter@3596a9d5, org.springframework.security.web.header.HeaderWriterFilter@2ad3e7e5, org.springframework.security.web.authentication.logout.LogoutFilter@52c86b9f, com.badminton.config.JwtRequestFilter@2d05291f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@441fd20d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7146e9a4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6aee292d, org.springframework.security.web.session.SessionManagementFilter@164523f, org.springframework.security.web.access.ExceptionTranslationFilter@6a937d6f, org.springframework.security.web.access.intercept.AuthorizationFilter@2e309b13]
-2026-07-01T12:18:20.638+07:00  INFO 17124 --- [badminton-booking-api] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-07-01T12:18:20.638+07:00  INFO 17124 --- [badminton-booking-api] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-07-01T12:18:20.639+07:00  INFO 17124 --- [badminton-booking-api] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2026-07-01T12:18:20.645+07:00  INFO 17124 --- [badminton-booking-api] [    Test worker] c.b.c.CustomerBookingControllerTest      : Started CustomerBookingControllerTest in 0.53 seconds (process running for 14.877)
+2026-07-02T01:19:53.576+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] c.b.c.CustomerBookingControllerTest      : Starting CustomerBookingControllerTest using Java 21.0.11 with PID 31520 (started by admin in D:\JavaRikkei\JavaWebService\Project\badminton_booking)
+2026-07-02T01:19:53.576+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] c.b.c.CustomerBookingControllerTest      : No active profile set, falling back to 1 default profile: "default"
+2026-07-02T01:19:54.005+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@55b991e0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7bfb9224, org.springframework.security.web.context.SecurityContextHolderFilter@1b33bbbe, org.springframework.security.web.header.HeaderWriterFilter@20bc4c09, org.springframework.security.web.authentication.logout.LogoutFilter@c444506, com.badminton.config.JwtRequestFilter@480a5088, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5b0eb43f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@19106753, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@740e38e9, org.springframework.security.web.session.SessionManagementFilter@753cc26d, org.springframework.security.web.access.ExceptionTranslationFilter@4e71c196, org.springframework.security.web.access.intercept.AuthorizationFilter@38f57609]
+2026-07-02T01:19:54.055+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-07-02T01:19:54.055+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-07-02T01:19:54.058+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-07-02T01:19:54.066+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] c.b.c.CustomerBookingControllerTest      : Started CustomerBookingControllerTest in 0.518 seconds (process running for 14.248)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

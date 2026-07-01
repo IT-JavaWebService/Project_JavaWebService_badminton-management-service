@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.badminton.service.BookingServiceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-07-01T05:18:20.726Z" hostname="LAPTOP-9DQS3FLB" time="0.452">
+<testsuite name="com.badminton.service.BookingServiceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-07-01T18:19:54.168Z" hostname="LAPTOP-9DQS3FLB" time="0.651">
   <properties/>
-  <testcase name="createBooking_success()" classname="com.badminton.service.BookingServiceTest" time="0.426"/>
-  <testcase name="createBooking_conflict()" classname="com.badminton.service.BookingServiceTest" time="0.005"/>
+  <testcase name="createBooking_success()" classname="com.badminton.service.BookingServiceTest" time="0.624"/>
+  <testcase name="createBooking_conflict()" classname="com.badminton.service.BookingServiceTest" time="0.006"/>
   <testcase name="createBooking_courtNotFound()" classname="com.badminton.service.BookingServiceTest" time="0.004"/>
-  <testcase name="approveBooking_success()" classname="com.badminton.service.BookingServiceTest" time="0.003"/>
-  <testcase name="approveBooking_alreadyConfirmed()" classname="com.badminton.service.BookingServiceTest" time="0.005"/>
+  <testcase name="approveBooking_success()" classname="com.badminton.service.BookingServiceTest" time="0.005"/>
+  <testcase name="approveBooking_alreadyConfirmed()" classname="com.badminton.service.BookingServiceTest" time="0.004"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

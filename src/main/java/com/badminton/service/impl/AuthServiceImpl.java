@@ -126,6 +126,8 @@ public class AuthServiceImpl implements AuthService {
                     .tokenType("Bearer")
                     .build();
         } catch (Exception e) {
+            System.err.println("Token refresh failed: " + e.getMessage());
+            e.printStackTrace();
             throw new CustomException("Invalid refresh token", HttpStatus.UNAUTHORIZED);
         }
     }
