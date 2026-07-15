@@ -37,8 +37,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String username = null;
         String jwt = null;
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            jwt = authorizationHeader.substring(7);
+        if (authorizationHeader != null) {
+            String token = authorizationHeader.trim();
+            while (token.toLowerCase().startsWith("bearer ")) {
+                token = token.substring(7).trim();
+            }
+            if (!token.isEmpty()) {
+                jwt = token;
+            }
+        }
+
+        if (jwt != null) {
             try {
                 if (redisTokenBlacklistService.isBlacklisted(jwt)) {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -46,7 +55,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     response.getWriter().write("{\"timestamp\":\"" + java.time.LocalDateTime.now() + "\",\"status\":403,\"error\":\"Forbidden\",\"message\":\"Token is blacklisted\",\"path\":\"" + request.getRequestURI() + "\"}");
                     return;
                 }
-                username = jwtUtil.extractUsername(jwt);
+                String tokenType = jwtUtil.extractTokenType(jwt);
+                if ("access".equals(tokenType)) {
+                    username = jwtUtil.extractUsername(jwt);
+                }
             } catch (Exception e) {
                 
             }

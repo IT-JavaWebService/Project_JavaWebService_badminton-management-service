@@ -9,8 +9,8 @@ public interface AuthService {
     UserDTO register(RegisterRequest request);
     LoginResponse login(LoginRequest request);
     RefreshResponse refresh(RefreshRequest request);
-    void logout(String authorizationHeader);
+    void logout(String authorizationHeader, LogoutRequest request);
     void changePassword(String email, ChangePasswordRequest request);
     String forgotPassword(ForgotPasswordRequest request);
-
+    void resetPassword(ResetPasswordRequest request);
 }

@@ -3,6 +3,7 @@ package com.badminton.controller;
 import com.badminton.dto.UserDTO;
 import com.badminton.dto.response.ResponseDTO;
 import com.badminton.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,7 @@ public class AdminUserController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO<UserDTO>> updateUser(
             @PathVariable Long id,
-            @RequestBody UserDTO userDTO) {
+            @Valid @RequestBody UserDTO userDTO) {
         UserDTO updatedUser = userService.updateUser(id, userDTO);
         ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder()
                 .success(true)

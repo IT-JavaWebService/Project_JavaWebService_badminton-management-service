@@ -44,7 +44,7 @@
 <tr>
 <td>
 <div class="infoBox">
-<div class="counter">2</div>
+<div class="counter">4</div>
 <p>tests</p>
 </div>
 </td>
@@ -62,7 +62,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">1.039s</div>
+<div class="counter">1.449s</div>
 <p>duration</p>
 </div>
 </td>
@@ -97,7 +97,7 @@
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.138s</td>
+<td>0.056s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
@@ -106,7 +106,25 @@
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.013s</td>
+<td>0.022s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">register_success()</td>
+<td class="path" hidden="">register_success()</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0.032s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">resetPassword_success()</td>
+<td class="path" hidden="">resetPassword_success()</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0.071s</td>
 <td class="success">100%</td>
 </tr>
 </table>
@@ -115,8 +133,8 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-com.badminton.controller.AuthControllerTest">2026-07-02T01:19:52.485+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.badminton.controller.AuthControllerTest]: AuthControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2026-07-02T01:19:52.499+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.badminton.BadmintonBookingApplication for test class com.badminton.controller.AuthControllerTest
+<pre id="root-0-test-stdout-com.badminton.controller.AuthControllerTest">2026-07-15T22:38:39.434+07:00  INFO 13380 --- [badminton-booking-api] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.badminton.controller.AuthControllerTest]: AuthControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-15T22:38:39.462+07:00  INFO 13380 --- [badminton-booking-api] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.badminton.BadmintonBookingApplication for test class com.badminton.controller.AuthControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -126,13 +144,13 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.5)
 
-2026-07-02T01:19:52.531+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] c.b.controller.AuthControllerTest        : Starting AuthControllerTest using Java 21.0.11 with PID 31520 (started by admin in D:\JavaRikkei\JavaWebService\Project\badminton_booking)
-2026-07-02T01:19:52.531+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] c.b.controller.AuthControllerTest        : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2026-07-02T01:19:53.248+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1786e7a5, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7bdfd631, org.springframework.security.web.context.SecurityContextHolderFilter@70661538, org.springframework.security.web.header.HeaderWriterFilter@73852c7c, org.springframework.security.web.authentication.logout.LogoutFilter@780296e2, com.badminton.config.JwtRequestFilter@300788d6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@575b9b92, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@de7abc9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@78f9b1ec, org.springframework.security.web.session.SessionManagementFilter@4b6fc615, org.springframework.security.web.access.ExceptionTranslationFilter@784bea2c, org.springframework.security.web.access.intercept.AuthorizationFilter@43874120]
-2026-07-02T01:19:53.337+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-07-02T01:19:53.338+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-07-02T01:19:53.339+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2026-07-02T01:19:53.353+07:00  INFO 31520 --- [badminton-booking-api] [    Test worker] c.b.controller.AuthControllerTest        : Started AuthControllerTest in 0.85 seconds (process running for 13.535)
+2026-07-15T22:38:39.523+07:00  INFO 13380 --- [badminton-booking-api] [    Test worker] c.b.controller.AuthControllerTest        : Starting AuthControllerTest using Java 21.0.11 with PID 13380 (started by admin in D:\JavaRikkei\JavaWebService\Project\badminton_booking)
+2026-07-15T22:38:39.524+07:00  INFO 13380 --- [badminton-booking-api] [    Test worker] c.b.controller.AuthControllerTest        : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2026-07-15T22:38:40.503+07:00  INFO 13380 --- [badminton-booking-api] [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3e0658f8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2d1206b, org.springframework.security.web.context.SecurityContextHolderFilter@696faa2b, org.springframework.security.web.header.HeaderWriterFilter@13572152, org.springframework.security.web.authentication.logout.LogoutFilter@550d3cd7, com.badminton.config.JwtRequestFilter@336e59a6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@16d869de, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3caf87e6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@73a706b1, org.springframework.security.web.session.SessionManagementFilter@249b2dd4, org.springframework.security.web.access.ExceptionTranslationFilter@87ef6de, org.springframework.security.web.access.intercept.AuthorizationFilter@409e0e69]
+2026-07-15T22:38:40.630+07:00  INFO 13380 --- [badminton-booking-api] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-07-15T22:38:40.631+07:00  INFO 13380 --- [badminton-booking-api] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-07-15T22:38:40.633+07:00  INFO 13380 --- [badminton-booking-api] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-07-15T22:38:40.655+07:00  INFO 13380 --- [badminton-booking-api] [    Test worker] c.b.controller.AuthControllerTest        : Started AuthControllerTest in 1.185 seconds (process running for 19.672)
 </pre>
 <button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-stdout-com.badminton.controller.AuthControllerTest">Copy</button>
 </span>
@@ -147,7 +165,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.5.1</a> at Jul 2, 2026, 1:19:55 AM</p>
+<a href="https://www.gradle.org">Gradle 9.5.1</a> at Jul 15, 2026, 10:38:43 PM</p>
 </div>
 </div>
 </body>

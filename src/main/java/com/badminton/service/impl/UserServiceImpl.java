@@ -58,22 +58,35 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException("User not found with id: " + id, HttpStatus.NOT_FOUND));
 
-        if (userDTO.getUsername() != null && !userDTO.getUsername().equals(user.getUsername())) {
-            if (userRepository.existsByUsername(userDTO.getUsername())) {
-                throw new CustomException("Username is already taken", HttpStatus.CONFLICT);
+        if (userDTO.getUsername() != null) {
+            if (userDTO.getUsername().trim().isEmpty()) {
+                throw new CustomException("Username cannot be empty", HttpStatus.BAD_REQUEST);
             }
-            user.setUsername(userDTO.getUsername());
+            if (!userDTO.getUsername().equals(user.getUsername())) {
+                if (userRepository.existsByUsername(userDTO.getUsername())) {
+                    throw new CustomException("Username is already taken", HttpStatus.CONFLICT);
+                }
+                user.setUsername(userDTO.getUsername().trim());
+            }
         }
         
-        if (userDTO.getEmail() != null && !userDTO.getEmail().equals(user.getEmail())) {
-            if (userRepository.existsByEmail(userDTO.getEmail())) {
-                throw new CustomException("Email is already registered", HttpStatus.CONFLICT);
+        if (userDTO.getEmail() != null) {
+            if (userDTO.getEmail().trim().isEmpty()) {
+                throw new CustomException("Email cannot be empty", HttpStatus.BAD_REQUEST);
             }
-            user.setEmail(userDTO.getEmail());
+            if (!userDTO.getEmail().equals(user.getEmail())) {
+                if (userRepository.existsByEmail(userDTO.getEmail())) {
+                    throw new CustomException("Email is already registered", HttpStatus.CONFLICT);
+                }
+                user.setEmail(userDTO.getEmail().trim());
+            }
         }
 
         if (userDTO.getRole() != null) {
-            user.setRole(userDTO.getRole().toUpperCase());
+            if (userDTO.getRole().trim().isEmpty()) {
+                throw new CustomException("Role cannot be empty", HttpStatus.BAD_REQUEST);
+            }
+            user.setRole(userDTO.getRole().trim().toUpperCase());
         }
         
         user.setActive(userDTO.isActive());

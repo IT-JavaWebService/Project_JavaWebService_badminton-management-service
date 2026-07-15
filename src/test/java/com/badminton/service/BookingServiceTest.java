@@ -150,28 +150,49 @@ class BookingServiceTest {
 
     @Test
     void approveBooking_success() {
-        
         Long bookingId = 100L;
+        User manager = User.builder().email("manager@test.com").build();
+        Court court = Court.builder().manager(manager).build();
         Booking booking = Booking.builder()
                 .id(bookingId)
+                .court(court)
                 .status("PENDING")
                 .build();
 
+        when(authentication.getName()).thenReturn("manager@test.com");
         when(bookingRepository.findById(bookingId)).thenReturn(Optional.of(booking));
         when(bookingRepository.save(any(Booking.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        
         bookingService.approveBooking(bookingId);
 
-        
         assertEquals("CONFIRMED", booking.getStatus());
         verify(bookingRepository).findById(bookingId);
         verify(bookingRepository).save(booking);
     }
 
     @Test
+    void approveBooking_forbidden() {
+        Long bookingId = 100L;
+        User manager = User.builder().email("manager@test.com").build();
+        Court court = Court.builder().manager(manager).build();
+        Booking booking = Booking.builder()
+                .id(bookingId)
+                .court(court)
+                .status("PENDING")
+                .build();
+
+        when(authentication.getName()).thenReturn("different_manager@test.com");
+        when(bookingRepository.findById(bookingId)).thenReturn(Optional.of(booking));
+
+        CustomException exception = assertThrows(CustomException.class, () -> bookingService.approveBooking(bookingId));
+        assertEquals(HttpStatus.FORBIDDEN, exception.getStatus());
+        assertEquals("You do not have permission to approve/reject bookings for this court", exception.getMessage());
+
+        verify(bookingRepository, never()).save(any(Booking.class));
+    }
+
+    @Test
     void approveBooking_alreadyConfirmed() {
-        
         Long bookingId = 100L;
         Booking booking = Booking.builder()
                 .id(bookingId)
@@ -180,7 +201,6 @@ class BookingServiceTest {
 
         when(bookingRepository.findById(bookingId)).thenReturn(Optional.of(booking));
 
-        
         CustomException exception = assertThrows(CustomException.class, () -> bookingService.approveBooking(bookingId));
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
         assertEquals("Booking status must be PENDING to approve", exception.getMessage());

@@ -34,11 +34,14 @@ public class JwtUtil {
     public String generateAccessToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", userDetails.getAuthorities());
+        claims.put("token_type", "access");
         return createToken(claims, userDetails.getUsername(), expiration);
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
-        return createToken(new HashMap<>(), userDetails.getUsername(), refreshExpiration);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("token_type", "refresh");
+        return createToken(claims, userDetails.getUsername(), refreshExpiration);
     }
 
     private String createToken(Map<String, Object> claims, String subject, long expirationTimeMs) {
@@ -59,6 +62,10 @@ public class JwtUtil {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    public String extractTokenType(String token) {
+        return extractClaim(token, claims -> claims.get("token_type", String.class));
+    }
+
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
@@ -77,7 +84,14 @@ public class JwtUtil {
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
+        return validateToken(token, userDetails, "access");
+    }
+
+    public boolean validateToken(String token, UserDetails userDetails, String expectedType) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String tokenType = extractTokenType(token);
+        return (username.equals(userDetails.getUsername()) 
+                && !isTokenExpired(token) 
+                && expectedType.equals(tokenType));
     }
 }

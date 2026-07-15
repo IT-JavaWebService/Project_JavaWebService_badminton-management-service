@@ -11,4 +11,5 @@ public interface BookingService {
     List<CustomerBookingHistoryDTO> getCustomerBookingHistory(String email);
     void approveBooking(Long id);
     void rejectBooking(Long id);
+    Double getMonthlyRevenue(int year, int month, String managerEmail);
 }

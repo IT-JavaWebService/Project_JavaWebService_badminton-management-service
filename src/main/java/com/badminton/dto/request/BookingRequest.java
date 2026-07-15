@@ -1,6 +1,7 @@
 package com.badminton.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class BookingRequest {
     private Long courtId;
 
     @NotNull(message = "Booking date is required")
+    @FutureOrPresent(message = "Booking date must be today or in the future")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate bookingDate;
 

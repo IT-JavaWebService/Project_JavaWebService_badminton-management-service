@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.UUID;
 
@@ -59,11 +58,16 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException("Username is already taken", HttpStatus.CONFLICT);
         }
 
+        String roleStr = request.getRole().toUpperCase();
+        if (!"CUSTOMER".equals(roleStr)) {
+            throw new CustomException("Only CUSTOMER registration is allowed via this endpoint", HttpStatus.BAD_REQUEST);
+        }
+
         User user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole().toUpperCase())
+                .role(roleStr)
                 .active(true)
                 .build();
 
@@ -116,7 +120,7 @@ public class AuthServiceImpl implements AuthService {
             String email = jwtUtil.extractUsername(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
-            if (!jwtUtil.validateToken(token, userDetails)) {
+            if (!jwtUtil.validateToken(token, userDetails, "refresh")) {
                 throw new CustomException("Invalid refresh token", HttpStatus.UNAUTHORIZED);
             }
 
@@ -134,7 +138,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void logout(String authorizationHeader) {
+    public void logout(String authorizationHeader, LogoutRequest request) {
         if (authorizationHeader == null) {
             throw new CustomException("Missing Authorization header", HttpStatus.BAD_REQUEST);
         }
@@ -152,8 +156,6 @@ public class AuthServiceImpl implements AuthService {
             Date expiration = jwtUtil.extractExpiration(token);
             long remainingTime = expiration.getTime() - System.currentTimeMillis();
 
-            
-            
             if (remainingTime > 0) {
                 redisTokenBlacklistService.addToBlacklist(token, remainingTime);
             }
@@ -161,6 +163,23 @@ public class AuthServiceImpl implements AuthService {
             
         } catch (Exception e) {
             throw new CustomException("Invalid access token", HttpStatus.BAD_REQUEST);
+        }
+
+        if (request != null && request.getRefreshToken() != null && !request.getRefreshToken().trim().isEmpty()) {
+            String refreshToken = request.getRefreshToken().trim();
+            try {
+                String email = jwtUtil.extractUsername(refreshToken);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                if (jwtUtil.validateToken(refreshToken, userDetails, "refresh")) {
+                    Date expiration = jwtUtil.extractExpiration(refreshToken);
+                    long remainingTime = expiration.getTime() - System.currentTimeMillis();
+                    if (remainingTime > 0) {
+                        redisTokenBlacklistService.addToBlacklist(refreshToken, remainingTime);
+                    }
+                }
+            } catch (Exception e) {
+                
+            }
         }
     }
 
@@ -192,19 +211,19 @@ public class AuthServiceImpl implements AuthService {
         return token;
     }
 
+    @Override
+    @Transactional
+    public void resetPassword(ResetPasswordRequest request) {
+        User user = userRepository.findByResetToken(request.getResetToken())
+                .orElseThrow(() -> new CustomException("Invalid or expired reset token", HttpStatus.BAD_REQUEST));
 
+        if (user.getResetTokenExpiredAt() == null || user.getResetTokenExpiredAt().isBefore(LocalDateTime.now())) {
+            throw new CustomException("Reset token has expired", HttpStatus.BAD_REQUEST);
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setResetToken(null);
+        user.setResetTokenExpiredAt(null);
+        userRepository.save(user);
+    }
 }

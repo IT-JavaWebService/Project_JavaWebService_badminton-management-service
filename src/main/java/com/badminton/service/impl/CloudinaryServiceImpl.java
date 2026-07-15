@@ -38,7 +38,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
             }
             return uploadResult.get("secure_url").toString();
         } catch (Exception e) {
-            throw new CustomException("Failed to upload image to Cloudinary: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+            throw new CustomException("Cloud storage service is temporarily unavailable. Please try again later.", HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 }

@@ -112,6 +112,11 @@ public class BookingServiceImpl implements BookingService {
             throw new CustomException("Booking status must be PENDING to approve", HttpStatus.BAD_REQUEST);
         }
         
+        String managerEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (booking.getCourt().getManager() == null || !booking.getCourt().getManager().getEmail().equals(managerEmail)) {
+            throw new CustomException("You do not have permission to approve/reject bookings for this court", HttpStatus.FORBIDDEN);
+        }
+        
         booking.setStatus("CONFIRMED");
         bookingRepository.save(booking);
     }
@@ -126,7 +131,25 @@ public class BookingServiceImpl implements BookingService {
             throw new CustomException("Booking status must be PENDING to reject", HttpStatus.BAD_REQUEST);
         }
         
+        String managerEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (booking.getCourt().getManager() == null || !booking.getCourt().getManager().getEmail().equals(managerEmail)) {
+            throw new CustomException("You do not have permission to approve/reject bookings for this court", HttpStatus.FORBIDDEN);
+        }
+        
         booking.setStatus("CANCELLED");
         bookingRepository.save(booking);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Double getMonthlyRevenue(int year, int month, String managerEmail) {
+        List<Booking> bookings = bookingRepository.findAll();
+
+        return bookings.stream()
+                .filter(b -> "CONFIRMED".equals(b.getStatus()))
+                .filter(b -> b.getBookingDate().getYear() == year && b.getBookingDate().getMonthValue() == month)
+                .filter(b -> managerEmail == null || (b.getCourt().getManager() != null && b.getCourt().getManager().getEmail().equals(managerEmail)))
+                .mapToDouble(b -> b.getCourt().getPricePerHour())
+                .sum();
     }
 }

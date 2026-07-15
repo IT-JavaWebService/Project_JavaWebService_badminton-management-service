@@ -59,7 +59,7 @@ class CustomerBookingControllerTest {
     @Test
     @WithMockUser(username = "customer@gmail.com", roles = "CUSTOMER")
     void createBooking_success() throws Exception {
-        BookingRequest request = new BookingRequest(1L, LocalDate.of(2026, 7, 10), 2L);
+        BookingRequest request = new BookingRequest(1L, LocalDate.now().plusDays(1), 2L);
         BookingDTO bookingDTO = BookingDTO.builder()
                 .id(100L)
                 .courtId(1L)
@@ -83,7 +83,7 @@ class CustomerBookingControllerTest {
     @Test
     @WithMockUser(username = "customer@gmail.com", roles = "CUSTOMER")
     void createBooking_conflict() throws Exception {
-        BookingRequest request = new BookingRequest(1L, LocalDate.of(2026, 7, 10), 2L);
+        BookingRequest request = new BookingRequest(1L, LocalDate.now().plusDays(1), 2L);
 
         when(bookingService.createBooking(any(BookingRequest.class)))
                 .thenThrow(new CustomException("This time slot is already booked on the selected date", HttpStatus.CONFLICT));

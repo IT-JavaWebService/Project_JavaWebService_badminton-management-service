@@ -40,8 +40,8 @@ public class AdminUserControllerTest {
         Mockito.when(userService.getUsers(0, 10, null)).thenReturn(new PageImpl<>(List.of(user)));
 
         mockMvc.perform(get("/api/v1/admin/users")
-                        .param("page", "0")
-                        .param("size", "10"))
+                .param("page", "0")
+                .param("size", "10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.content[0].username").value("admin"));
@@ -65,8 +65,8 @@ public class AdminUserControllerTest {
         Mockito.when(userService.updateUser(Mockito.eq(1L), Mockito.any(UserDTO.class))).thenReturn(updatedUser);
 
         mockMvc.perform(put("/api/v1/admin/users/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updateInfo)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateInfo)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.username").value("admin_new"));
