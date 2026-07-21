@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface CourtService {
     List<CourtDTO> getAllCourts();
+    CourtDTO getCourtById(Long id);
 }

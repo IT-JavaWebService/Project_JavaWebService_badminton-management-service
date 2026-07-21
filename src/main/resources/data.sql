@@ -6,9 +6,9 @@ TRUNCATE TABLE users;
 SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO users (id, username, email, password, role, is_active, created_at) VALUES 
-(1, 'customer', 'customer@test.com', '$2a$10$NIx8HUIuobMVLHne/XydgeKnFPqEfMeml0ldsTZzp0tm.LMAcCyu6', 'CUSTOMER', 1, NOW()),
-(2, 'manager', 'manager@test.com', '$2a$10$uELAJ/mFibBovlR2GzzG/.yeFZmS0zMgJtOZtWDPqt26dJX9EXUni', 'MANAGER', 1, NOW()),
-(3, 'admin', 'admin@test.com', '$2a$10$9MaHuy14pGJA0wgD32iVNepQbgycv21CG45085SvK0/iLzzJ6FKYm', 'ADMIN', 1, NOW());
+(1, 'customer', 'customer@test.com', '$2a$10$GVGAfNep21Ac41fvyaFHdu/a2WRr2mbGCmNpDYEg/oBMoqvKi7FCq', 'CUSTOMER', 1, NOW()),
+(2, 'manager', 'manager@test.com', '$2a$10$GVGAfNep21Ac41fvyaFHdu/a2WRr2mbGCmNpDYEg/oBMoqvKi7FCq', 'MANAGER', 1, NOW()),
+(3, 'admin', 'admin@test.com', '$2a$10$GVGAfNep21Ac41fvyaFHdu/a2WRr2mbGCmNpDYEg/oBMoqvKi7FCq', 'ADMIN', 1, NOW());
 
 INSERT INTO time_slots (id, start_time, end_time, label) VALUES 
 (1, '07:00:00', '08:00:00', '07:00 - 08:00'),

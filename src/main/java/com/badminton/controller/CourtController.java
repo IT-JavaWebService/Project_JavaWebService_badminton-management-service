@@ -5,6 +5,7 @@ import com.badminton.dto.response.ResponseDTO;
 import com.badminton.service.CourtService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +28,17 @@ public class CourtController {
                 .success(true)
                 .message("Fetched courts successfully")
                 .data(courts)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDTO<CourtDTO>> getCourtById(@PathVariable Long id) {
+        CourtDTO court = courtService.getCourtById(id);
+        ResponseDTO<CourtDTO> response = ResponseDTO.<CourtDTO>builder()
+                .success(true)
+                .message("Fetched court details successfully")
+                .data(court)
                 .build();
         return ResponseEntity.ok(response);
     }

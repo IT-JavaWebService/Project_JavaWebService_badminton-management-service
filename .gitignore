@@ -1,0 +1,18 @@
+target/
+build/
+.gradle/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# Postman files - NEVER commit or push
+*.postman_collection.json
+.postman/
+

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,5 +18,6 @@ public class CourtDTO {
     private String address;
     private Double pricePerHour;
     private Long managerId;
+    private List<String> images;
     private LocalDateTime createdAt;
 }

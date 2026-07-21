@@ -203,6 +203,10 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new CustomException("User not found with email: " + request.getEmail(), HttpStatus.NOT_FOUND));
 
+        if ("MANAGER".equalsIgnoreCase(user.getRole()) || "ADMIN".equalsIgnoreCase(user.getRole())) {
+            throw new CustomException("Password reset is not allowed for privileged accounts (MANAGER/ADMIN)", HttpStatus.FORBIDDEN);
+        }
+
         String token = UUID.randomUUID().toString();
         user.setResetToken(token);
         user.setResetTokenExpiredAt(LocalDateTime.now().plusMinutes(15));
@@ -216,6 +220,10 @@ public class AuthServiceImpl implements AuthService {
     public void resetPassword(ResetPasswordRequest request) {
         User user = userRepository.findByResetToken(request.getResetToken())
                 .orElseThrow(() -> new CustomException("Invalid or expired reset token", HttpStatus.BAD_REQUEST));
+
+        if ("MANAGER".equalsIgnoreCase(user.getRole()) || "ADMIN".equalsIgnoreCase(user.getRole())) {
+            throw new CustomException("Password reset via token is not allowed for privileged accounts (MANAGER/ADMIN)", HttpStatus.FORBIDDEN);
+        }
 
         if (user.getResetTokenExpiredAt() == null || user.getResetTokenExpiredAt().isBefore(LocalDateTime.now())) {
             throw new CustomException("Reset token has expired", HttpStatus.BAD_REQUEST);
